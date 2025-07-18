@@ -1,9 +1,12 @@
-name: Deploy to GitHub Pages
+name: Deploy static site to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Set your default branch here
+      - main  # or your default branch name
+
+permissions:
+  contents: write  # Required to push to gh-pages branch
 
 jobs:
   deploy:
@@ -13,13 +16,9 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js (Optional, if your site doesn't use Node, skip this)
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .  # Your site is in the root of the repo
+        publish_branch: gh-pages
+        publish_dir: .  # root of the repo where index.html is located
